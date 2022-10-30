@@ -1,10 +1,22 @@
 import {
   Box,
+  IconButton,
   ImageList,
   ImageListItem,
   ImageListItemBar,
   Typography,
 } from "@mui/material";
+import HeadphonesIcon from "@mui/icons-material/Headphones";
+const getCount = (count: number) => {
+  if (count < 0) return;
+  if (count < 10000) {
+    return count;
+  } else if (Math.floor(count / 10000) < 10000) {
+    return Math.floor(count / 1000) / 10 + "万";
+  } else {
+    return Math.floor(count / 10000000) / 10 + "亿";
+  }
+};
 
 const RecommendList: React.FC<{
   recommendList: {
@@ -37,8 +49,23 @@ const RecommendList: React.FC<{
               loading="lazy"
             />
             <ImageListItemBar
+              position="top"
+              actionPosition="right"
+              actionIcon={
+                <IconButton
+                  sx={{
+                    color: "rgba(255, 255, 255, 0.54)",
+                    fontSize: "12px",
+                  }}
+                  aria-label={`info about ${item.name}`}
+                >
+                  <HeadphonesIcon fontSize="inherit" />
+                  {getCount(item.playCount)}
+                </IconButton>
+              }
+            />
+            <ImageListItemBar
               title={item.name}
-              subtitle={<span>by: {item.name + "___"}</span>}
               position="below"
             />
           </ImageListItem>
