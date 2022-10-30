@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Button } from "@mui/material";
+import "./App.css";
+import { invoke } from "@tauri-apps/api/tauri";
+import { listen } from "@tauri-apps/api/event";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    listen("c_event", (event) => {
+      console.log('zxcv',event);
+    });
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Button
+        onClick={async () => {
+          console.info("abc");
+          console.log(await invoke("greet", { name: "1234" }));
+        }}
+      >
+        调用命令 & 监听传来的消息
+      </Button>
     </div>
   );
 }
